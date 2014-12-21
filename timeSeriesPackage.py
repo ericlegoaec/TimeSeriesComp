@@ -68,3 +68,5 @@ print "earliest date: " + str(earliest_date)
 # TODO: Objective 1: isolate the dates and values for each of the corresponding lists
 # *Remember that each list has its own set of values, and is independent
 #  from any other list.
+
+#Another change
