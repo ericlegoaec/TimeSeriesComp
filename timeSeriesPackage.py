@@ -1,3 +1,4 @@
+import collections
 from datetime import datetime
 import csv
 
@@ -98,8 +99,7 @@ valueIndexList = []
 for value in indexFromTickerNames:
 	valueIndexList.append(value + 1)
 
-# print valueIndexList
-print valueIndexList
+
 # At this time, we need to create the first dictionary to pair with the value from each date
 for valueIndex in valueIndexList:
 	# ~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,32 +118,39 @@ for valueIndex in valueIndexList:
 	listOfLists_ofValues.append(list(tempValueList))
 	del tempValueList[:]
 	
-print listOfLists_ofValues
+# print listOfLists_ofValues
 
 # for x in listOfLists_ofValues:
 # 	print x
 # 	print
 
 # Create the first dictionary
-tickerDictionary = {}
-tempDict = {}
+tickerDictionary = collections.OrderedDict()
+tempDict = collections.OrderedDict()
+# Need to pull the number of values within each individual list, not the full
 timeSeriesIndex = 0
+
+# Find indices in the dates value:
+for line_list in listOfLists_ofDates:
+	for date in line_list:
+		timeSeriesIndex += 1
+
+
+IndividualTickerDictionary_LENGTH = (timeSeriesIndex / len(tickerNames))
+
+LOL_Values_List_Iterator = 0
 valueIndex = 0
-listIndex = 0
+listIndex = len(listOfLists_ofDates)
 
+# Create the double dictionary structure
+for ticker in tickerNames:
 
-if len(listOfLists_ofDates) == len(listOfLists_ofValues):
-	for ticker in tickerNames:
-		for timeSeries in listOfLists_ofDates:
-			for date in timeSeries:
-				tempDict[date] = listOfLists_ofValues[timeSeriesIndex][valueIndex]
-				valueIndex += 1
+	for listRange in range(0,listIndex):
 
-			timeSeriesIndex += 1
+		for dateRange in range(0,IndividualTickerDictionary_LENGTH):
+			tempDict[listOfLists_ofDates[listRange][dateRange]] = listOfLists_ofValues[listRange][dateRange]
 
-		tickerDictionary[ticker] = tempDict
-
-print tickerDictionary
+	tickerDictionary[ticker] = tempDict
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
