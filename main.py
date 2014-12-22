@@ -2,11 +2,15 @@
 import collections
 import csv
 from datetime import datetime
+# <<<<<<< Updated upstream
 from BloombergClass import Bloomberg
+
 
 def main():
         continueProgram = True
         bloomberg = Bloomberg()
+        # What exactly does this line do?
+
 	while continueProgram == True:
 		print 'Welcome to the TimeSeriesComp program. Please choose from the menu below: ',
 		print 'Select an option: \n1) Import data from Bloomberg \n2) Download data from Yahoo Finance API \n3) Quit'

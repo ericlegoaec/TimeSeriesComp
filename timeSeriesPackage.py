@@ -50,6 +50,100 @@ for x in fileCopy[2:]:
 	    dates2.append(date_2)
 	    dateToValue2[date_2.strftime('%m-%d-%Y')] = x[4]
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Edit: Jameson
+# Attempt to try to create a list of lists in order to scale recording of values
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ # Create a 'list of lists'
+listOfLists_ofDates = []
+listOfLists_ofValues = []
+
+# Create initial starting point for listOfLists
+indexFromTickerNames = []
+NAMES = len(tickerNames)
+initial_start = 0
+# print NAMES
+
+for x in range(0,NAMES):
+    if x > 0:
+        initial_start += 2
+        indexFromTickerNames.append(initial_start + 1)
+    else:
+        indexFromTickerNames.append(x)
+# Proof of concept 'print' to show that number of tickers impacts the list range
+# print indexFromTickerNames
+
+# We know that data is organized in the following way:
+# [date] [value] [space] [date] [value]
+# Therefore, we can create automatic lists given this information
+tempList = []
+tempListNameIndex = 0
+for x in indexFromTickerNames:
+	for i in fileCopy[2:]:
+		tickerDate = i[x]
+		tempList.append(tickerDate)
+	listOfLists_ofDates.append(tempList)
+
+# It works!!!
+# for x in listOfLists_ofDates:
+# 	print x
+# 	print
+
+tempValueList = []
+valueIndexList = []
+
+for value in indexFromTickerNames:
+	valueIndexList.append(value + 1)
+
+# print valueIndexList
+print valueIndexList
+# At this time, we need to create the first dictionary to pair with the value from each date
+for valueIndex in valueIndexList:
+
+	for line in fileCopy[2:]:
+		tickerValue = line[valueIndex]
+		tempValueList.append(tickerValue)
+		# The templist is going through all the values. We need to either wipe the tempList after
+		# or determine how to increment through.
+
+	listOfLists_ofValues.append(tempValueList)
+print listOfLists_ofValues
+
+# for x in listOfLists_ofValues:
+# 	print x
+# 	print
+
+# Create the first dictionary
+tickerDictionary = {}
+tempDict = {}
+timeSeriesIndex = 0
+valueIndex = 0
+
+
+# if len(listOfLists_ofDates) == len(listOfLists_ofValues):
+# 	for ticker in tickerNames:
+# 		for timeSeries in listOfLists_ofDates:
+# 			for date in timeSeries:
+# 				tempDict[date] = listOfLists_ofValues[timeSeriesIndex][valueIndex]
+# 				valueIndex += 1
+
+# 			timeSeriesIndex += 1
+
+# 		tickerDictionary[ticker] = tempDict
+
+# print tickerDictionary
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+
+
+
 # Check to make sure that everything works
 # print dates1,
 # print ""
@@ -64,7 +158,7 @@ if dates1[0] < dates2[0]:
 else:
     earliest_date = dates1[0].strftime('%m-%d-%Y')
 
-print "earliest date: " + str(earliest_date)
+# print "earliest date: " + str(earliest_date)
 # TODO: Objective 1: isolate the dates and values for each of the corresponding lists
 # *Remember that each list has its own set of values, and is independent
 #  from any other list.

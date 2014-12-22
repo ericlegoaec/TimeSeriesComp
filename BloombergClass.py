@@ -6,7 +6,6 @@ import csv
 from datetime import datetime
 
 class Bloomberg:
-    # # I have absolutely no idea what I'm doing with this class....
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     def __init__(self):
@@ -25,7 +24,7 @@ class Bloomberg:
 
             csvfile.close()
 
-            # print fileCopy
+            
 
             tickerNamesCounter = 0
 
@@ -59,6 +58,8 @@ class Bloomberg:
                         dates2.append(date_2)
                         self.dateToValue2[date_2.strftime('%m-%d-%Y')] = x[4]
 
+            
+
             # Check to make sure that everything works
             # print dates1,
             # print ""
@@ -69,6 +70,9 @@ class Bloomberg:
                 #The first date in the dates1 list is earlier than the other, so earliest overlapping
                 #   date must be dates2 first value
                 #   This is of course assuming Bloomberg data is complete for each date
+
+
+                # This is a little simplistic... Should be improved...
                 self.earliest_date = dates2[0].strftime('%m-%d-%Y')
             else:
                 self.earliest_date = dates1[0].strftime('%m-%d-%Y')

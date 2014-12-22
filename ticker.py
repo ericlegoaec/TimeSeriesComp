@@ -8,5 +8,7 @@ import collections
 import csv
 from datetime import datetime
 
-var = input('Enter something')
-# Not sure why, but this is not working
+class Ticker:
+
+	def __init__(self):
+		
