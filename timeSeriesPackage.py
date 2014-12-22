@@ -83,7 +83,9 @@ for x in indexFromTickerNames:
 	for i in fileCopy[2:]:
 		tickerDate = i[x]
 		tempList.append(tickerDate)
-	listOfLists_ofDates.append(tempList)
+
+	listOfLists_ofDates.append(list(tempList))
+	del tempList[:]
 
 # It works!!!
 # for x in listOfLists_ofDates:
@@ -100,14 +102,22 @@ for value in indexFromTickerNames:
 print valueIndexList
 # At this time, we need to create the first dictionary to pair with the value from each date
 for valueIndex in valueIndexList:
-
+	# ~~~~~~~~~~~~~~~~~~~~~~~
+	# PROBLEM CODE
+	# ~~~~~~~~~~~~~~~~~~~~~~~
 	for line in fileCopy[2:]:
 		tickerValue = line[valueIndex]
 		tempValueList.append(tickerValue)
 		# The templist is going through all the values. We need to either wipe the tempList after
 		# or determine how to increment through.
 
-	listOfLists_ofValues.append(tempValueList)
+	# ~~~~~~~~~~~~~~~~~~~~~~~
+	# PROBLEM CODE
+	# ~~~~~~~~~~~~~~~~~~~~~~~
+
+	listOfLists_ofValues.append(list(tempValueList))
+	del tempValueList[:]
+	
 print listOfLists_ofValues
 
 # for x in listOfLists_ofValues:
@@ -119,29 +129,22 @@ tickerDictionary = {}
 tempDict = {}
 timeSeriesIndex = 0
 valueIndex = 0
+listIndex = 0
 
 
-# if len(listOfLists_ofDates) == len(listOfLists_ofValues):
-# 	for ticker in tickerNames:
-# 		for timeSeries in listOfLists_ofDates:
-# 			for date in timeSeries:
-# 				tempDict[date] = listOfLists_ofValues[timeSeriesIndex][valueIndex]
-# 				valueIndex += 1
+if len(listOfLists_ofDates) == len(listOfLists_ofValues):
+	for ticker in tickerNames:
+		for timeSeries in listOfLists_ofDates:
+			for date in timeSeries:
+				tempDict[date] = listOfLists_ofValues[timeSeriesIndex][valueIndex]
+				valueIndex += 1
 
-# 			timeSeriesIndex += 1
+			timeSeriesIndex += 1
 
-# 		tickerDictionary[ticker] = tempDict
+		tickerDictionary[ticker] = tempDict
 
-# print tickerDictionary
-
-
-
+print tickerDictionary
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-
-
 
 
 # Check to make sure that everything works
