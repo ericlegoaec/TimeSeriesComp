@@ -64,7 +64,8 @@ tempListNameIndex = 0
 for x in indexFromTickerNames:
 	for i in fileCopy[2:]:
 		tickerDate = i[x]
-		tempList.append(tickerDate)
+                if not tickerDate == '':
+		    tempList.append(tickerDate)
 
 	listOfLists_ofDates.append(list(tempList))
 	del tempList[:]
@@ -88,7 +89,8 @@ for valueIndex in valueIndexList:
 	# ~~~~~~~~~~~~~~~~~~~~~~~
 	for line in fileCopy[2:]:
 		tickerValue = line[valueIndex]
-		tempValueList.append(tickerValue)
+                if not tickerValue == '':
+		    tempValueList.append(tickerValue)
 		# The templist is going through all the values. We need to either wipe the tempList after
 		# or determine how to increment through.
 
@@ -126,7 +128,6 @@ listIndex = len(listOfLists_ofDates)
 # Create the double dictionary structure
 for ticker in tickerNames:
 	for listRange in range(0,listIndex):
-
 		for dateRange in range(0,IndividualTickerDictionary_LENGTH):
 			tempDict[listOfLists_ofDates[listRange][dateRange]] = listOfLists_ofValues[listRange][dateRange]
 
@@ -150,7 +151,9 @@ for ticker in tickerNames:
 			if date <= len(listOfLists_ofDates[listRange])-2:
 				# Need to get the computer to read values as ints, and not strings
 				# Obviously, this would not be the calculation used to determine performance....
-				temp_Performance_DD[listOfLists_ofDates[listRange][date]] = (float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1]))) / 10000)
+                                print (tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1]))
+				#temp_Performance_DD[listOfLists_ofDates[listRange][date]] = (float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1]))) / 10000)
+                                
 	
 			else:
 				pass
