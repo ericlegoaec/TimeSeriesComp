@@ -149,6 +149,7 @@ for ticker in tickerNames:
 		for date in range(0, len(listOfLists_ofDates[listRange])):
 			if date <= len(listOfLists_ofDates[listRange])-2:
 				# Need to get the computer to read values as ints, and not strings
+				# Obviously, this would not be the calculation used to determine performance....
 				temp_Performance_DD[listOfLists_ofDates[listRange][date]] = (float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1]))) / 10000)
 	
 			else:
