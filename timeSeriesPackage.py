@@ -32,25 +32,6 @@ for x in fileCopy[0]:
 indexCounterStart = 2
 valueCounter = 0
 
-# All available dates
-dates1 = []
-dates2 = []
-
-# Dictionaries
-dateToValue1 = {}
-dateToValue2 = {}
-
-# Start reading in dates from 2nd row on
-for x in fileCopy[2:]:
-        if(x[0] != ''):
-            date_1 = datetime.strptime(x[0], '%m/%d/%Y')
-	    dates1.append(date_1)
-            dateToValue1[date_1.strftime('%m-%d-%Y')] = x[1]
-        if(x[3] != ''):    
-            date_2 = datetime.strptime(x[3], '%m/%d/%Y')
-	    dates2.append(date_2)
-	    dateToValue2[date_2.strftime('%m-%d-%Y')] = x[4]
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Edit: Jameson
 # Attempt to try to create a list of lists in order to scale recording of values
@@ -144,31 +125,57 @@ listIndex = len(listOfLists_ofDates)
 
 # Create the double dictionary structure
 for ticker in tickerNames:
-
 	for listRange in range(0,listIndex):
 
 		for dateRange in range(0,IndividualTickerDictionary_LENGTH):
 			tempDict[listOfLists_ofDates[listRange][dateRange]] = listOfLists_ofValues[listRange][dateRange]
 
 	tickerDictionary[ticker] = tempDict
+
+# Test:
+# print tickerDictionar
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Function: PerformanceCalculator
+# Inputs: Double Dictionary of (ticker : dictionary(date : values)), original lists of dates - LOL_Dates
+# Description: Calculate performance for all 
+# Outputs: LOL_ReturnData
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+performance_DD = collections.OrderedDict()
+temp_Performance_DD = collections.OrderedDict()
+
+for ticker in tickerNames:
+	for listRange in range(0, listIndex):
+		for date in range(0, len(listOfLists_ofDates[listRange])):
+			if date <= len(listOfLists_ofDates[listRange])-2:
+				# Need to get the computer to read values as ints, and not strings
+				temp_Performance_DD[listOfLists_ofDates[listRange][date]] = (float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1]))) / 10000)
+	
+			else:
+				pass
+
+	performance_DD[ticker] = temp_Performance_DD
+
+print performance_DD
+
+# print tickerDictionary['SPX Index']['1/31/1990']
+
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Description: Find the earliest overlapping date between all available date ranges
+# Function: EarliestDate
+# Inputs: 
+# Description: 
+# Outputs: 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-# Check to make sure that everything works
-# print dates1,
-# print ""
-#print dates2,
-
 # TODO: Find the earliest overlapping date between the two sets of lists
-if dates1[0] < dates2[0]:
-    #The first date in the dates1 list is earlier than the other, so earliest overlapping
-    #   date must be dates2 first value
-    #   This is of course assuming Bloomberg data is complete for each date
-    earliest_date = dates2[0].strftime('%m-%d-%Y')
-else:
-    earliest_date = dates1[0].strftime('%m-%d-%Y')
-
-# print "earliest date: " + str(earliest_date)
-# TODO: Objective 1: isolate the dates and values for each of the corresponding lists
-# *Remember that each list has its own set of values, and is independent
-#  from any other list.
+# if dates1[0] < dates2[0]:
+#     #The first date in the dates1 list is earlier than the other, so earliest overlapping
+#     #   date must be dates2 first value
+#     #   This is of course assuming Bloomberg data is complete for each date
+#     earliest_date = dates2[0].strftime('%m-%d-%Y')
+# else:
+#     earliest_date = dates1[0].strftime('%m-%d-%Y')
