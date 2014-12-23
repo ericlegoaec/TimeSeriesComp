@@ -63,8 +63,11 @@ tempList = []
 tempListNameIndex = 0
 for x in indexFromTickerNames:
 	for i in fileCopy[2:]:
-		tickerDate = i[x]
-		tempList.append(tickerDate)
+		if i != '':
+			tickerDate = i[x]
+			tempList.append(tickerDate)
+		else:
+			pass
 
 	listOfLists_ofDates.append(list(tempList))
 	del tempList[:]
@@ -85,8 +88,11 @@ for value in indexFromTickerNames:
 for valueIndex in valueIndexList:
 
 	for line in fileCopy[2:]:
-		tickerValue = line[valueIndex]
-		tempValueList.append(tickerValue)
+		if line != '':
+			tickerValue = line[valueIndex]
+			tempValueList.append(tickerValue)
+		else:
+			pass
 
 	listOfLists_ofValues.append(list(tempValueList))
 	del tempValueList[:]
@@ -123,8 +129,10 @@ for ticker in tickerNames:
 
 	tickerDictionary[ticker] = tempDict
 
-# Test:
-# print tickerDictionar
+# # Test:
+# for x in tickerDictionary['LYV US Equity']:
+# 	print x
+# 	print
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Function: PerformanceCalculator
@@ -141,8 +149,16 @@ for ticker in tickerNames:
 			if date <= len(listOfLists_ofDates[listRange])-2:
 				
 				# Need to get the computer to read values as ints, and not strings
-				T_1value = float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1])))
-				T_0value = float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date])))
+				if (tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1])) != '':
+					T_1value = float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1])))
+				else:
+					pass
+
+				if (tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date])) != '':
+					T_0value = float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date])))
+				else:
+					pass
+
 				date_per_ticker = listOfLists_ofDates[listRange][date]
 
 				temp_Performance_DD[date_per_ticker] = ((T_1value / T_0value) - 1)
@@ -152,11 +168,8 @@ for ticker in tickerNames:
 
 	performance_DD[ticker] = temp_Performance_DD
 
-print performance_DD
 
-# print tickerDictionary['SPX Index']['1/31/1990']
-
-
+print performance_DD['SPX Index']['2/28/1990']
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
