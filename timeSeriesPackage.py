@@ -148,7 +148,6 @@ for ticker in tickerNames:
 		for date in range(0, len(listOfLists_ofDates[listRange])):
 			if date <= len(listOfLists_ofDates[listRange])-2:
 				
-				# Need to get the computer to read values as ints, and not strings
 				if (tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1])) != '':
 					T_1value = float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1])))
 				else:
@@ -162,7 +161,6 @@ for ticker in tickerNames:
 				date_per_ticker = listOfLists_ofDates[listRange][date]
 
 				temp_Performance_DD[date_per_ticker] = ((T_1value / T_0value) - 1)
-	
 			else:
 				pass
 
