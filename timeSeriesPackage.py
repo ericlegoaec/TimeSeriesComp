@@ -83,18 +83,10 @@ for value in indexFromTickerNames:
 
 # At this time, we need to create the first dictionary to pair with the value from each date
 for valueIndex in valueIndexList:
-	# ~~~~~~~~~~~~~~~~~~~~~~~
-	# PROBLEM CODE
-	# ~~~~~~~~~~~~~~~~~~~~~~~
+
 	for line in fileCopy[2:]:
 		tickerValue = line[valueIndex]
 		tempValueList.append(tickerValue)
-		# The templist is going through all the values. We need to either wipe the tempList after
-		# or determine how to increment through.
-
-	# ~~~~~~~~~~~~~~~~~~~~~~~
-	# PROBLEM CODE
-	# ~~~~~~~~~~~~~~~~~~~~~~~
 
 	listOfLists_ofValues.append(list(tempValueList))
 	del tempValueList[:]
@@ -106,8 +98,8 @@ for valueIndex in valueIndexList:
 # 	print
 
 # Create the first dictionary
-tickerDictionary = collections.OrderedDict()
-tempDict = collections.OrderedDict()
+tickerDictionary = {}
+tempDict = {}
 # Need to pull the number of values within each individual list, not the full
 timeSeriesIndex = 0
 
@@ -126,7 +118,6 @@ listIndex = len(listOfLists_ofDates)
 # Create the double dictionary structure
 for ticker in tickerNames:
 	for listRange in range(0,listIndex):
-
 		for dateRange in range(0,IndividualTickerDictionary_LENGTH):
 			tempDict[listOfLists_ofDates[listRange][dateRange]] = listOfLists_ofValues[listRange][dateRange]
 
@@ -148,9 +139,13 @@ for ticker in tickerNames:
 	for listRange in range(0, listIndex):
 		for date in range(0, len(listOfLists_ofDates[listRange])):
 			if date <= len(listOfLists_ofDates[listRange])-2:
+				
 				# Need to get the computer to read values as ints, and not strings
-				# Obviously, this would not be the calculation used to determine performance....
-				temp_Performance_DD[listOfLists_ofDates[listRange][date]] = (float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1]))) / 10000)
+				T_1value = float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date + 1])))
+				T_0value = float((tickerDictionary.get(ticker).get(listOfLists_ofDates[listRange][date])))
+				date_per_ticker = listOfLists_ofDates[listRange][date]
+
+				temp_Performance_DD[date_per_ticker] = ((T_1value / T_0value) - 1)
 	
 			else:
 				pass
