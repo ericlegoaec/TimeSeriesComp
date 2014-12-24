@@ -1,5 +1,6 @@
 import collections
 from datetime import datetime
+from datetime import timedelta
 import csv
 
 fileCopy = []
@@ -166,7 +167,6 @@ for ticker in tickerNames:
 
 	performance_DD[ticker] = temp_Performance_DD
 
-
 print performance_DD['SPX Index']['2/28/1990']
 
 
@@ -186,3 +186,21 @@ print performance_DD['SPX Index']['2/28/1990']
 #     earliest_date = dates2[0].strftime('%m-%d-%Y')
 # else:
 #     earliest_date = dates1[0].strftime('%m-%d-%Y')
+
+# Calculates the earliest date (forward an additional date for performance calculations)
+def getEarliestDate():
+    earliest_date = getCommonDate()
+    earliest_date += timedelta(days=1)
+    return earliest_date
+
+# Calculates the earliest common date
+def getCommonDate():
+    common_date = datetime.strptime(listOfLists_ofDates[0][0], '%m/%d/%Y')
+
+    for ticker in range(1, len(listOfLists_ofDates)):
+        first_date = datetime.strptime(listOfLists_ofDates[ticker][0], '%m/%d/%Y')
+        if first_date > common_date:
+            common_date = first_date
+
+    return common_date
+
