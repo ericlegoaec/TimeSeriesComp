@@ -1,7 +1,9 @@
 # The purpose of this module is to be able to import data from Bloomberg into a format that will allow
 # users to ascribe certain tickers to sets of time series data (both real total return, and performance).
 
+from ticker import Ticker
 import collections
+import operator
 import csv
 from datetime import datetime
 
@@ -10,10 +12,8 @@ class Bloomberg:
 
     def __init__(self):
         self.tickerNames = []
-        self.LOL_Dates = []
-        self.LOL_Values = []
-        self.DoubleDictionary = collections.OrderedDict()
-    
+        self.tickerObjects = {}
+            
     def initializeData(self, fileName):
             fileCopy = []
 
@@ -38,51 +38,38 @@ class Bloomberg:
             for x in self.tickerNames:
                 print x
 
-            return tickerNames
+            # Associate performance data with each ticker via a dictionary
+            # Dictionary will map datetime objects (for the date) to floats (for performance)
 
+            # enumerate gives you an index value for each ticker in tickerNames, so we can know both
+            #   the index and name of the ticker
+            for index, ticker in enumerate(self.tickerNames):
+                # a temporary map to hold a ticker's date/performance data
+                performance_data_dict = {}
 
-    def DateFinder(fileCopy):
-        # Verify that ticker names are transferred to the list
-        # print tickerNames
+                # For each ticker, we go through the file checking the appropriate columns
+                # You'll notice that corresponding columns of data for each ticker in the tickerNames list
+                # is just 
+                #   Date: 3*(index of ticker name in tickerNames)
+                #   Performance: 3*(index of ticker name in tickerNames) + 1
+                #
+                # Math is a beautiful thing
+                for line in fileCopy[2:]:
+                    date_string = line[3*index]
+                    if date_string == '':
+                        continue
+                    #create a datetime object out of the datestring in the csv file
+                    date = datetime.strptime(date_string, '%m/%d/%Y')
+                    performance = float(line[3*index + 1])
 
-        # Pair dates and ticker names into a double dictionary structure
-        indexCounterStart = 2
-        valueCounter = 0
+                    # add the date and performance to the dictionary
+                    performance_data_dict[date] = performance
 
-        # All available dates
-        dates1 = []
-        dates2 = []
+                # create a new ticker object, and store it in the tickerObjects dictionary which maps
+                # ticker names (which are strings) to ticker objects (which are instances of the Ticker class)
+                ticker_obj = Ticker(ticker, performance_data_dict)
+                self.tickerObjects[ticker] = ticker_obj
 
-        # Start reading in dates from 2nd row on
-        for x in fileCopy[2:]:
-                if(x[0] != ''):
-                    date_1 = datetime.strptime(x[0], '%m/%d/%Y')
-                    dates1.append(date_1)
-                    self.dateToValue1[date_1.strftime('%m-%d-%Y')] = x[1]
-                if(x[3] != ''):    
-                    date_2 = datetime.strptime(x[3], '%m/%d/%Y')
-                    dates2.append(date_2)
-                    self.dateToValue2[date_2.strftime('%m-%d-%Y')] = x[4]
-
-    def DoubleDictionaryMethod():
-        pass
-            
-    # LOL - 'List of Lists'
-    def earliestDate(LOL_Dates):
-        if dates1[0] < dates2[0]:
-            #The first date in the dates1 list is earlier than the other, so earliest overlapping
-            #   date must be dates2 first value
-            #   This is of course assuming Bloomberg data is complete for each date
-
-
-            # This is a little simplistic... Should be improved...
-            self.earliest_date = dates2[0].strftime('%m-%d-%Y')
-        else:
-            self.earliest_date = dates1[0].strftime('%m-%d-%Y')
-
-        print "earliest date: " + str(self.earliest_date)
-        # TODO: Objective 1: isolate the dates and values for each of the corresponding lists
-        # *Remember that each list has its own set of values, and is independent
-        #  from any other list.
-
-            # Is this where we would return all of the relevant data?
+            # note that the date_to_performance dictionary is not guaranteed to be sorted, so to sort it we can
+            # use this line(which is the same thing used in the Ticker class
+            print sorted(self.tickerObjects["SPX Index"].date_to_performance.items(), key=operator.itemgetter(0))
