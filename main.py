@@ -4,6 +4,7 @@ import csv
 from datetime import datetime
 # <<<<<<< Updated upstream
 from BloombergClass import Bloomberg
+from ticker import Ticker
 
 
 def main():
@@ -22,7 +23,7 @@ def main():
 			#fileName = input('Please enter the name of the .csv file you would like to analyze: ')
                         #print fileName
 			bloomberg.initializeData("exampleData.csv")
-            break
+                        break
 			
 		elif userChoice == 2:
 			# Yahoo API stuff
