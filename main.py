@@ -22,7 +22,7 @@ def main():
 			#fileName = input('Please enter the name of the .csv file you would like to analyze: ')
                         #print fileName
 			bloomberg.initializeData("exampleData.csv")
-                        break
+            break
 			
 		elif userChoice == 2:
 			# Yahoo API stuff

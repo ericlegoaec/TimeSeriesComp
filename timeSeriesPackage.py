@@ -167,40 +167,48 @@ for ticker in tickerNames:
 
 	performance_DD[ticker] = temp_Performance_DD
 
-print performance_DD['SPX Index']['2/28/1990']
+print performance_DD
 
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Description: Find the earliest overlapping date between all available date ranges
-# Function: EarliestDate
-# Inputs: 
-# Description: 
-# Outputs: 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# TODO: Find the earliest overlapping date between the two sets of lists
-# if dates1[0] < dates2[0]:
-#     #The first date in the dates1 list is earlier than the other, so earliest overlapping
-#     #   date must be dates2 first value
-#     #   This is of course assuming Bloomberg data is complete for each date
-#     earliest_date = dates2[0].strftime('%m-%d-%Y')
-# else:
-#     earliest_date = dates1[0].strftime('%m-%d-%Y')
 
 # Calculates the earliest date (forward an additional date for performance calculations)
-def getEarliestDate():
-    earliest_date = getCommonDate()
-    earliest_date += timedelta(days=1)
-    return earliest_date
+# def getEarliestDate():
+#     earliest_date = getCommonDate()
+#     earliest_date += timedelta(days=1)
+#     return earliest_date
+# 
+# ***Jameson Edit***
+# This is incorrect because the earliest date of one security may or may not begin before or 
+# after the common date between 2 or more securities / indeces.
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Function: EarliestDate_Performance
+# Inputs: LOL_Dates
+# Description: Finds the earliest date where performance data can be listed
+# Outputs: List of earliest_dates
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+# EarliestDate_Performance = {}
+# for ticker in performance_DD:
+# 	for date in 
+# 		EarliestDate_Performance[ticker] = 
+
+# print EarliestDate_Performance
+
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Function: CommonDate_Performance
+# Inputs: LOL_Dates
+# Description: Finds the earliest common date where performance data can be listed between 2 or more securities
+# Outputs: 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 # Calculates the earliest common date
-def getCommonDate():
-    common_date = datetime.strptime(listOfLists_ofDates[0][0], '%m/%d/%Y')
+# def getCommonDate():
+    # common_date = datetime.strptime(listOfLists_ofDates[0][0], '%m/%d/%Y')
+# This requires a double For-loop, not a single for-loop
+# 
+#     for ticker in range(1, len(listOfLists_ofDates)):
+#         first_date = datetime.strptime(listOfLists_ofDates[ticker][0], '%m/%d/%Y')
+#         if first_date > common_date:
+#             common_date = first_date
 
-    for ticker in range(1, len(listOfLists_ofDates)):
-        first_date = datetime.strptime(listOfLists_ofDates[ticker][0], '%m/%d/%Y')
-        if first_date > common_date:
-            common_date = first_date
-
-    return common_date
-
+#     return common_date
