@@ -19,6 +19,8 @@ class Ticker:
             self.ticker = ticker
             
             # instance variable for dictionary from date to performance
+            # !!!IMPORTANT!!!
+            # This dictionary is not sorted. To sort, use sorted(date_to_performance.items(), key=operator.itemgetter(0))
             self.date_to_performance = date_to_performance
 
             # Since date_to_performance is a dictionary of datetime objects to floats,

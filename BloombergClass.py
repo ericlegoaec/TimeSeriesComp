@@ -3,6 +3,7 @@
 
 from ticker import Ticker
 import collections
+import operator
 import csv
 from datetime import datetime
 
@@ -68,3 +69,7 @@ class Bloomberg:
                 # ticker names (which are strings) to ticker objects (which are instances of the Ticker class)
                 ticker_obj = Ticker(ticker, performance_data_dict)
                 self.tickerObjects[ticker] = ticker_obj
+
+            # note that the date_to_performance dictionary is not guaranteed to be sorted, so to sort it we can
+            # use this line(which is the same thing used in the Ticker class
+            print sorted(self.tickerObjects["SPX Index"].date_to_performance.items(), key=operator.itemgetter(0))
