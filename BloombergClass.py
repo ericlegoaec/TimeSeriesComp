@@ -7,6 +7,10 @@ import operator
 import csv
 from datetime import datetime
 
+import plotly.plotly as py
+from plotly.graph_objs import *
+
+
 class Bloomberg:
     # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -71,5 +75,45 @@ class Bloomberg:
                 self.tickerObjects[ticker] = ticker_obj
 
             # note that the date_to_performance dictionary is not guaranteed to be sorted, so to sort it we can
-            # use this line(which is the same thing used in the Ticker class
+            # use this line (which is the same thing used in the Ticker class)
             print sorted(self.tickerObjects["SPX Index"].date_to_performance.items(), key=operator.itemgetter(0))
+
+    def growthOfADollar(self, ticker, start_value=10000, start_date=None, end_date=None, plot=False):
+        performance_data = sorted(self.tickerObjects[ticker].date_to_performance.items(), key=operator.itemgetter(0))
+        if start_date is None or end_date is None:
+            # Set date range over entire period
+            start_date = performance_data[0][0]
+            end_date = performance_data[-1][0]
+
+        self.value_over_time = [start_value]
+
+        start_index = [x[0] for x in performance_data].index(start_date) + 1
+        end_index = [x[0] for x in performance_data].index(end_date)
+
+        for index, month_data in enumerate(performance_data[start_index:end_index]):
+            # month is a tuple of date and return
+            current_index = start_index + index
+            past_month_value = performance_data[current_index-1][1]
+            current_month_value = performance_data[current_index][1]
+
+            growth_value = self.value_over_time[-1]
+
+            month_return = ((current_month_value/past_month_value)-1)
+            
+            new_value = growth_value + growth_value * month_return
+            self.value_over_time.append(new_value)
+
+        print self.value_over_time[-1]
+
+        if plot:
+            # Plotly stuff
+            py.sign_in("jpugliesi", "ul7hpg2obk")
+            trace1 = Scatter(
+               x = [x[0] for x in performance_data[start_index-1:end_index]],
+               y = self.value_over_time
+            )
+
+            data = Data([trace1])
+            plot_url = py.plot(data, filename='basic-line')
+
+
