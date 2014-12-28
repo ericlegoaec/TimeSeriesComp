@@ -86,10 +86,10 @@ class Bloomberg:
         # use this line (which is the same thing used in the Ticker class)
         # print sorted(self.tickerObjects["SPX Index"].date_to_performance.items(), key=operator.itemgetter(0))
 
-    def growthOfADollar(self, ticker, start_value=10000, start_date=None, end_date=None, plot=False):
+    def growthOfADollar(self, ticker, start_value=1000, start_date=None, end_date=None, plot=False):
         """Calculates the growth of a dollar of a range of time.
 
-        Requires a ticker string to calculate growth, and defaults to calculating the growth of $10,000
+        Requires a ticker string to calculate growth, and defaults to calculating the growth of $1000
         over the entirety of return data provided in the csv data file.
 
         Args:
