@@ -3,7 +3,7 @@ import collections
 import csv
 from datetime import datetime
 # <<<<<<< Updated upstream
-from BloombergClass import Bloomberg
+from bloomberg import Bloomberg
 from ticker import Ticker
 
 
