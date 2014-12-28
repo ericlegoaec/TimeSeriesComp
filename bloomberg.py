@@ -99,17 +99,16 @@ class Bloomberg:
             end_date (datetime): Ending date
             plot (bool): Graph the growth data in a plotly graph
 
-        """
-        # Sort performance data
-        performance_data = sorted(self.tickerObjects[ticker].date_to_performance.items(), key=operator.itemgetter(0))
-        
+        """ 
+
+        ticker_obj = self.tickerObjects[ticker]
         
         if start_date is None:
-            start_date = performance_data[0][0]
+            start_date = ticker_obj.raw_data[0][0]
             
         if end_date is None:
             # Set date range over entire period
-            end_date = performance_data[-1][0]
+            end_date = ticker_obj.raw_data[-1][0]
 
         # value_over_time holds sequence of monthly total values
         self.value_over_time = [start_value]
@@ -118,13 +117,13 @@ class Bloomberg:
         #   Uses index() to match index of a tuple (month, year) for start and end date values.
         #   We compare tuples of month and year since we don't care about a 
         #       datetime's `day` value in making the index() comparison
-        start_index = [(x[0].month, x[0].year) for x in performance_data].index((start_date.month, start_date.year)) + 1
-        end_index = [(x[0].month, x[0].year) for x in performance_data].index((end_date.month, end_date.year))
+        start_index = [(x[0].month, x[0].year) for x in ticker_obj.raw_data].index((start_date.month, start_date.year)) + 1
+        end_index = [(x[0].month, x[0].year) for x in ticker_obj.raw_data].index((end_date.month, end_date.year))
 
-        for index, month_data in enumerate(performance_data[start_index:end_index]):
+        for index, month_data in enumerate(ticker_obj.raw_data[start_index:end_index]):
             current_index = start_index + index
-            past_month_value = performance_data[current_index-1][1]
-            current_month_value = performance_data[current_index][1]
+            past_month_value = ticker_obj.raw_data[current_index-1][1]
+            current_month_value = ticker_obj.raw_data[current_index][1]
 
             growth_value = self.value_over_time[-1] # Last value in the growth time series
 
@@ -140,7 +139,7 @@ class Bloomberg:
             py.sign_in("jpugliesi", "ul7hpg2obk")
             
             trace1 = Scatter(
-               x = [x[0] for x in performance_data[start_index-1:end_index]],
+               x = [x[0] for x in ticker_obj.raw_data[start_index-1:end_index]],
                y = self.value_over_time
             )
 
@@ -148,5 +147,3 @@ class Bloomberg:
             plot_url = py.plot(data, filename='basic-line')
 
         return self.value_over_time
-
-

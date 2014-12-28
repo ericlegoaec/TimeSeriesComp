@@ -38,6 +38,8 @@ class Ticker:
         # whew...
         self.earliest_date = sorted(date_to_performance.items(), key=operator.itemgetter(0))[1][0]
 
+        self.raw_data = sorted(self.date_to_performance.items(), key=operator.itemgetter(0))
+
     # Just a convenient method to get performance for a date (might be overkill, but what the hell)
     def getPerformanceForDate(self, datetime):
 
