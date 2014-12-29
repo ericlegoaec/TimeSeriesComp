@@ -22,7 +22,8 @@ Using Bloomberg's excel add-in:
  4. Specify your date range
  5. Complete the Excel Add-in process:
  	5.1. Copy-paste the values as values, and save the file as a csv where you will place it on the desktop
+ 	5.2. Select your documents, and identify the file-path. (Save this for use later.)
  6. Open up "The_Bench_Grower" in your respective IDE. (We used Sublime text...)
- 7. Run the main.py file, and from the main menu, specify the file on your desktop!
+ 7. Run the main.py file, and from the main menu, specify the location of the file (using the file path we copied earlier).
 
 Please comment on our github to provide feedback and let us know how we can improve The_Bench_Grower in the future!
