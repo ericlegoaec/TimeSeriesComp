@@ -147,3 +147,43 @@ class Bloomberg:
             plot_url = py.plot(data, filename='basic-line')
 
         return self.value_over_time
+
+    def commonDate(self, tickers):
+        common_date = tickers[0].earliest_date
+        for ticker in tickers[1:]:
+                        if ticker.earliest_date > common_date:
+                                common_date = ticker.earliest_date
+        return common_date
+
+    def benchmarking(self, benchmarks, list_of_tickers):
+
+	common_date = self.commonDate(benchmarks + list_of_tickers)
+
+        benchmarks_overall_excess = {}
+
+        for benchmark in benchmarks:
+            benchmark_index = [x[0] for x in benchmark.raw_data].index(common_date) + 1
+            excess = {}
+            for ticker in list_of_tickers:
+                excess_over_time = []
+                start_index = [x[0] for x in ticker.raw_data].index(common_date) + 1
+                for index, month_data in enumerate(ticker.raw_data[start_index:]):
+                             
+                    current_index = start_index + index
+                    past_month_value = ticker.raw_data[current_index-1][1]
+                    current_month_value = ticker.raw_data[current_index][1]
+
+                    current_bench_index = benchmark_index + index
+                    past_bench_value = benchmark.raw_data[current_bench_index-1][1]
+                    current_bench_value = benchmark.raw_data[current_bench_index][1]
+
+                    month_return = ((current_month_value/past_month_value)-1) # Calculate return
+                    month_benchmark_return = ((current_bench_value/past_bench_value)-1) # Calculate return
+                    
+                    new_value = (month_return - month_benchmark_return)
+                    excess_over_time.append(new_value)
+
+                excess[ticker.ticker + "_er"] = excess_over_time
+            benchmarks_overall_excess[benchmark.ticker] = excess
+
+        print benchmarks_overall_excess
