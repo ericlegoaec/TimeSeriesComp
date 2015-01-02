@@ -151,8 +151,11 @@ class Bloomberg:
     def commonDate(self, tickers):
         common_date = tickers[0].earliest_date
         for ticker in tickers[1:]:
-                        if ticker.earliest_date > common_date:
-                                common_date = ticker.earliest_date
+            if ticker.earliest_date.year > common_date.year:
+                    common_date = ticker.earliest_date
+            elif ticker.earliest_date.year == common_date.year:
+                if ticker.earliest_date.month > common_date.month:
+                    common_date = ticker.earliest_date
         return common_date
 
     def benchmarking(self, benchmarks, list_of_tickers):
