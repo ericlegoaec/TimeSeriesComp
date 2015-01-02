@@ -30,8 +30,8 @@ class Bloomberg:
         fileCopy = []
 
         # Printing out each row in order to show what is there
-        with open(fileName) as csvfile:
-                reader = csv.reader(csvfile, delimiter = ",")
+        with open(fileName, 'rU') as csvfile:
+                reader = csv.reader(csvfile, delimiter=',', dialect=csv.excel_tab)
                 for row in reader:
                         fileCopy.append(row)
 
@@ -71,7 +71,7 @@ class Bloomberg:
                 if date_string == '':
                     continue
                 #create a datetime object out of the datestring in the csv file
-                date = datetime.strptime(date_string, '%m/%d/%Y')
+                date = datetime.strptime(date_string, '%m/%d/%y')
                 performance = float(line[3*index + 1])
 
                 # add the date and performance to the dictionary
